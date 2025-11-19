@@ -4,12 +4,22 @@ import { useState } from 'react'
 import ChatNavbar from '@/components/workspace/chat-navbar'
 import Sidebar from '@/components/workspace/sidebar'
 import ChatPanel from '@/components/workspace/chat-panel'
+import SettingsModal from '@/components/workspace/settings-modal'
 
 export default function WorkspacePage() {
   const [conversations, setConversations] = useState<Array<{ id: number; title: string; date: string }>>([])
   const [activeConversation, setActiveConversation] = useState<number | null>(null)
   const [messages, setMessages] = useState<Array<{ id: number; role: 'user' | 'ai'; content: string }>>([])
   const [model, setModel] = useState('GPT-4')
+  
+  // Settings State
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [settingsData, setSettingsData] = useState({
+    style: 'Promo',
+    duration: 30,
+    resolution: 'Portrait',
+    platform: 'TikTok'
+  })
 
   const handleNewChat = () => {
     const newId = Math.max(...conversations.map(c => c.id), 0) + 1
@@ -45,6 +55,10 @@ export default function WorkspacePage() {
     }, 1000)
   }
 
+  const updateSettings = (newData: any) => {
+    setSettingsData(prev => ({ ...prev, ...newData }))
+  }
+
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-black">
       <ChatNavbar modelSelection={model} onModelChange={setModel} />
@@ -55,6 +69,7 @@ export default function WorkspacePage() {
           activeConversation={activeConversation ?? 0}
           onSelectConversation={handleSelectConversation}
           onNewChat={handleNewChat}
+          onOpenSettings={() => setIsSettingsOpen(true)}
         />
         <ChatPanel 
           messages={messages}
@@ -62,6 +77,13 @@ export default function WorkspacePage() {
           showEmptyState={activeConversation === null}
         />
       </div>
+
+      <SettingsModal 
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        formData={settingsData}
+        updateFormData={updateSettings}
+      />
     </div>
   )
 }

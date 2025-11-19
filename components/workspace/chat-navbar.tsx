@@ -10,7 +10,7 @@ export default function ChatNavbar({ modelSelection, onModelChange }: ChatNavbar
     <div className="h-16 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-6">
       {/* Left side - Logo and name */}
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center font-bold text-white dark:text-black text-sm">
+        <div className="w-8 h-8 bg-gradient-to-br from-red-500 via-purple-500 to-blue-500 rounded-lg flex items-center justify-center font-bold text-white text-lg">
           D
         </div>
         <span className="font-bold text-lg">Ad Creator AI</span>
